@@ -208,7 +208,9 @@ function generateRawTx(chain:any, senderObj:any, signature:any, msg:any) {
       
         const msg = createTxMsgVote(chain, senderObj, fee, memo, params);
       
-        const reponse = await signAndBroadcastTxMsg(msg, senderObj, chain, nodeAddressIP, account);
+        const response = await signAndBroadcastTxMsg(msg, senderObj, chain, nodeAddressIP, account);
+        // await response.wait()
+        console.log(response)
         console.log("thank you for your vote")
         
 
