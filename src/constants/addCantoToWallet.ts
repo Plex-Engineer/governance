@@ -1,6 +1,5 @@
 import { ethers } from "ethers";
 import { CantoMain } from "constants/networks";
-import Web3 from "web3";
 
 export function addNetwork() {
   //@ts-ignore

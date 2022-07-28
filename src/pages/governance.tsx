@@ -8,7 +8,7 @@ import {
   generateEndpointProposals,
   generateEndpointProposalTally,
 } from "@tharsis/provider";
-import Proposal, { ProposalData } from "./proposal";
+import Proposal, { convertDateToString, ProposalData } from "./proposal";
 import { CantoMain, CantoTest } from "constants/networks"
 import { toast } from "react-toastify";
 import { addNetwork, getChainIdandAccount } from "constants/addCantoToWallet";
@@ -17,7 +17,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   color: #fff;
-  width: 1124px;
+  width: 1200px;
   margin: 0 auto 3rem auto;
   .title {
     font-weight: 300;
@@ -206,8 +206,8 @@ const Governance = () => {
                     abstainPecterage={
                       totalVotes == 0 ? 0 : (100 * abstain) / totalVotes
                     }
-                    startDate={proposal.voting_start_time}
-                    endDate={proposal.voting_end_time}
+                    startDate={convertDateToString(proposal.voting_start_time)}
+                    endDate={convertDateToString(proposal.voting_end_time)}
                     status={proposal.status}
                     onClick={() => {
                       setCurrentProposal(proposal);

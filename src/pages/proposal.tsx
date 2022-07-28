@@ -184,6 +184,13 @@ function convertToVoteNumber(option: string): number {
       return 0
   }
 }
+export function convertDateToString(dateString: string) {
+  return (new Date(dateString)
+  .toLocaleDateString()
+  .replaceAll("/", ".") +
+  " : " +
+  new Date(dateString).toLocaleTimeString())
+}
 
 
 
@@ -271,47 +278,33 @@ const Proposal = (props: ProposalWithChain) => {
       <RowCell
         type="SUBMIT TIME:"
         value={
-          new Date(props.proposal.submit_time)
-            .toLocaleDateString()
-            .replaceAll("/", ".") +
-          " : " +
-          new Date(props.proposal.submit_time).toLocaleTimeString(
-
-          )
+          convertDateToString(props.proposal.submit_time)
         }
       />
       <RowCell
         type="VOTING END TIME:"
         value={
-          new Date(props.proposal.voting_end_time)
-            .toLocaleDateString()
-            .replaceAll("/", ".") +
-          " : " +
-          new Date(props.proposal.voting_end_time).toLocaleTimeString()
+          convertDateToString(props.proposal.voting_end_time)
         }
       />
       <RowCell
         type="DEPOSIT END TIME:"
         value={
-          new Date(props.proposal.deposit_end_time)
-            .toLocaleDateString()
-            .replaceAll("/", ".") +
-          " : " +
-          new Date(props.proposal.deposit_end_time).toLocaleTimeString()
+          convertDateToString(props.proposal.deposit_end_time)
         }
       />
       <RowCell type="QUORUM:" value="40%" />
       <RowCell type="THRESHOLD:" value="50%" />
       <RowCell type="VETO THRESHOLD:" value="33.4%" />
       {accountVote != "NONE" ? "YOUR VOTE: " + accountVote : ""}
-      {voteSuccess == 0 ? <div style={{ color: 'red' }}>Please Stake Before Voting!</div> : voteSuccess == 1 ? <div style={{ color: 'green' }}>Thank You For Your Vote!</div> : ""}
+      {voteSuccess == 0 ? <div style={{ color: 'red' }}>vote could not be placed</div> : voteSuccess == 1 ? <div style={{ color: 'green' }}>thank you for your vote!</div> : ""}
 
       <CheckBox values={props.proposal.status == "PROPOSAL_STATUS_VOTING_PERIOD" ? ["yes", "no", "veto", "abstain"] : []} onChange={setVoteOption} />
-      {props.proposal.status != "PROPOSAL_STATUS_VOTING_PERIOD" ? <DisabledButton>Voting Has Ended</DisabledButton> :
+      {props.proposal.status != "PROPOSAL_STATUS_VOTING_PERIOD" ? <DisabledButton>voting has ended</DisabledButton> :
         <Button onClick={async () => {
           const voteSuccess = await voteOnProposal(Number(props.proposal.proposal_id), convertToVoteNumber(voteOption), nodeURL(props.chainId), fee, chain, memo);
           setVoteSuccess(voteSuccess)
-        }} autoFocus={false}> {voteOption == "none" ? "select an option" : "Vote"}</Button>
+        }} autoFocus={false}> {voteOption == "none" ? "select an option" : "vote"}</Button>
       }
 
       <GraphBar

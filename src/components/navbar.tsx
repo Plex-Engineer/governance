@@ -275,7 +275,6 @@ const NavBar = () => {
  
     //@ts-ignore
     window.ethereum.on("networkChanged", () => {
-      console.log("LOCATION")
       window.location.reload();
     });
   }
