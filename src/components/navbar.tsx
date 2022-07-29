@@ -10,6 +10,7 @@ import {
   getChainIdandAccount,
 } from "constants/addCantoToWallet";
 import { CantoMain, CantoTest } from "constants/networks"
+import { useNetworkInfo } from "stores/networkInfo";
 
 
 interface propsStyle {
@@ -252,20 +253,15 @@ const Glitch = styled.p`
 `;
 
 const NavBar = () => {
+  const netWorkInfo = useNetworkInfo();
   let isConnected: boolean;
-  const [chainId, account] = getChainIdandAccount();
-  if (
-    !chainId ||
-    !account ||
-    !(Number(chainId) == CantoMain.chainId ||
-    Number(chainId) == CantoTest.chainId)
-   
-  ) {
-    isConnected = false;
-    addNetwork();
-  } else {
-    isConnected = true;
-  }
+
+  useEffect(() => {
+    const [chainId, account] = getChainIdandAccount();
+    netWorkInfo.setChainId(chainId);
+    netWorkInfo.setAccount(account);
+  },[])
+  
   //@ts-ignore
   if (window.ethereum) {
     //@ts-ignore
@@ -279,14 +275,13 @@ const NavBar = () => {
     });
   }
 
-  const [balance, setBalance] = useState("0");
   async function getBalance() {
-    setBalance(await getAccountBalance(account))
+    netWorkInfo.setBalance(await getAccountBalance(netWorkInfo.account))
   }
 
   useEffect(() => {
     getBalance();
-  },[])
+  },[netWorkInfo.account])
 
 
 
@@ -330,13 +325,13 @@ const NavBar = () => {
           setIsNavOpen(!isNavOpen);
         }}
       />
-      {isConnected ? (
+      {netWorkInfo.isConnected ? (
         <button
           onClick={() => {
             // setIsModalOpen(true)
           }}
         >
-          {formatBigNumber(balance)}&nbsp;
+          {formatBigNumber(netWorkInfo.balance)}&nbsp;
           <span
             style={{
               fontWeight: "600",
@@ -344,7 +339,7 @@ const NavBar = () => {
           >
             CANTO
           </span>{" "}
-          | {account?.substring(0, 5) + ".."}
+          | {netWorkInfo.account?.substring(0, 5) + ".."}
         </button>
       ) : (
         <button onClick={() => connect()}>connect wallet</button>
