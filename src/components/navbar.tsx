@@ -104,7 +104,7 @@ const Container = styled.div<propsStyle>`
     color: var(--primary-color);
     transition: all 0.2s ease-in-out;
     &:hover {
-      transform: scale(1.1);
+      transform: scale(1.05);
       cursor: pointer;
       background-color: var(--primary-color);
       color: black;
@@ -254,7 +254,6 @@ const Glitch = styled.p`
 
 const NavBar = () => {
   const netWorkInfo = useNetworkInfo();
-  let isConnected: boolean;
 
   useEffect(() => {
     const [chainId, account] = getChainIdandAccount();
