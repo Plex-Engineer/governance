@@ -275,7 +275,9 @@ const NavBar = () => {
   }
 
   async function getBalance() {
-    netWorkInfo.setBalance(await getAccountBalance(netWorkInfo.account))
+    if (netWorkInfo.account != undefined) {
+      netWorkInfo.setBalance(await getAccountBalance(netWorkInfo.account))
+    }
   }
 
   useEffect(() => {
