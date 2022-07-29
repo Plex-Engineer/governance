@@ -95,6 +95,8 @@ const Governance = () => {
     proposals.addTallyToProposal(Number(networkInfo.chainId));
   },[networkInfo.chainId]);
 
+  
+
 
   const emptyProposal: ProposalData = {
     content: {

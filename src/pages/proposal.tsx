@@ -205,9 +205,9 @@ const Proposal = (props: ProposalWithChain) => {
         <p>
           {props.proposal.status == "PROPOSAL_STATUS_VOTING_PERIOD"
             ? "Voting"
-            : props.proposal.status == "PROPOSAL_STATUS_REJECTED"
-              ? "Rejected"
-              : "Passed"}
+            : props.proposal.status ==  "PROPOSAL_STATUS_PASSED"
+            ? "Passed"
+            : "Rejected"}
         </p>
       </div>
       <h1>{props.proposal.content.title}</h1>

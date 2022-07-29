@@ -55,7 +55,9 @@ const GovBar = (props: barProps) => {
         }}
       >
         <p className="number">#{props.proposalID}</p>
-        <p className="number">{props.status == "PROPOSAL_STATUS_VOTING_PERIOD" ? "Voting" : "Completed"}</p>
+        <p className="number">{props.status == "PROPOSAL_STATUS_VOTING_PERIOD" ? "Voting" : props.status == "PROPOSAL_STATUS_PASSED"
+              ? "Passed"
+              : "Rejected"}</p>
       </div>
       <h1>{props.name}</h1>
 
