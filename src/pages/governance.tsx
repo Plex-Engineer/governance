@@ -86,17 +86,14 @@ const Governance = () => {
 
   //Let the user know they are on the wrong network
   useEffect(() => {
-    if (!(Number(networkInfo.chainId)== CantoMain.chainId || Number(networkInfo.chainId)==CantoTest.chainId) && networkInfo.chainId != undefined) {
+    if (!networkInfo.isConnected) {
       toast.error("Please switch to Canto network", {
         toastId: networkInfo.chainId
       })
     } 
     proposals.initProposals(Number(networkInfo.chainId));
+    proposals.addTallyToProposal(Number(networkInfo.chainId));
   },[networkInfo.chainId]);
-
-  useEffect(() => {
-    proposals.addTallyToProposal(Number(networkInfo.chainId))
-  }, [proposals.proposals]);
 
 
   const emptyProposal: ProposalData = {

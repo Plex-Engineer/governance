@@ -16,7 +16,7 @@ interface NetworkProps {
 
 export const useNetworkInfo = create<NetworkProps>()(
   devtools((set) => ({
-    isConnected: false,
+    isConnected: true,
     setIsConnected: (connected) => set({ isConnected: connected }),
     chainId: undefined,
     setChainId: (chainId) => {
