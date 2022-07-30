@@ -1,6 +1,5 @@
 import { ethers } from "ethers";
 import { CantoMain } from "constants/networks";
-import { useNetworkInfo } from "stores/networkInfo";
 
 export function addNetwork() {
   //@ts-ignore
