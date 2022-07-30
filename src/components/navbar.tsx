@@ -4,12 +4,11 @@ import { useEffect, useState } from "react";
 import menu from "../assets/menu.svg";
 import { formatBigNumber } from "utils";
 import {
-  addNetwork,
   connect,
   getAccountBalance,
   getChainIdandAccount,
 } from "constants/addCantoToWallet";
-import { CantoMain, CantoTest } from "constants/networks"
+
 import { useNetworkInfo } from "stores/networkInfo";
 
 
