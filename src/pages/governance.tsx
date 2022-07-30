@@ -1,17 +1,13 @@
 import GovBar from "components/governance/govBar";
-import GovModal from "components/governance/govModal";
 import React, { useState, useEffect } from "react";
 import Popup from "reactjs-popup";
 import styled from "styled-components";
-import { nodeURL } from "utils/nodeTransactions";
-import {
-  generateEndpointProposals,
-  generateEndpointProposalTally,
-} from "@tharsis/provider";
-import Proposal, { convertDateToString, ProposalData } from "./proposal";
+import Proposal, { convertDateToString } from "./proposal";
+import { ProposalData } from "stores/proposals";
 import { CantoMain, CantoTest } from "constants/networks"
 import { toast } from "react-toastify";
-import { addNetwork, getChainIdandAccount } from "constants/addCantoToWallet";
+import { useNetworkInfo } from "stores/networkInfo";
+import { useProposals } from "stores/proposals";
 
 const Container = styled.div`
   display: flex;
@@ -80,77 +76,27 @@ const StyledPopup = styled(Popup)`
   }
 `;
 const Governance = () => {
+  //network info store 
+  const networkInfo = useNetworkInfo();
+  //proposal store
+  const proposals = useProposals();
+  //track modal click
   const [isOpen, setIsOpened] = useState(false);
-  const [proposals, setProposals] = useState<ProposalData[]>([]);
-  const [currentProposal, setCurrentProposal] = useState<ProposalData>();
-  const [chainId, account] = getChainIdandAccount();
+
 
   //Let the user know they are on the wrong network
   useEffect(() => {
-    if (!(Number(chainId)== CantoMain.chainId || Number(chainId)==CantoTest.chainId) && chainId != undefined) {
+    if (!networkInfo.isConnected) {
       toast.error("Please switch to Canto network", {
-        toastId: chainId
+        toastId: networkInfo.chainId
       })
-    }
-  },[chainId])
+    } 
+    proposals.initProposals(Number(networkInfo.chainId));
+    proposals.addTallyToProposal(Number(networkInfo.chainId));
+  },[networkInfo.chainId]);
 
-  async function getProposals() {
-    const options = {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-    };
-    const allProposals = await fetch(
-      nodeURL(Number(chainId)) + generateEndpointProposals(),
-      options
-    ).then(function (response) {
-      return response.json();
-    });
-    setProposals(allProposals.proposals);
-    await addCurrentTally(allProposals.proposals);
-  }
+  
 
-  async function queryTally(proposalID: string): Promise<Tally> {
-    const options = {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-    };
-    const tally = await fetch(
-      nodeURL(Number(chainId)) + generateEndpointProposalTally(proposalID),
-      options
-    );
-    return await tally.json();
-  }
-
-  interface Tally {
-    tally: {
-      yes: string;
-      abstain: string;
-      no: string;
-      no_with_veto: string;
-    };
-  }
-
-  async function addCurrentTally(proposals: ProposalData[]) {
-    proposals.map(async (obj: ProposalData) => {
-      if (obj.status == "PROPOSAL_STATUS_VOTING_PERIOD") {
-        const ongoingTally = await queryTally(obj.proposal_id);
-
-        const temp = proposals.filter(
-          (val) => val.proposal_id != obj.proposal_id
-        );
-        obj.final_tally_result = { ...ongoingTally.tally };
-        temp.push(obj);
-        setProposals(temp);
-        return obj;
-      }
-    });
-  }
-
-  // ///IF PROPOSAL IS NOT FINISHED, WE MUST USE QUERY TALLY TO GET CURRENT VOTES
-  useEffect(() => {
-    addNetwork();
-    getProposals();
-  }, [chainId]);
 
   const emptyProposal: ProposalData = {
     content: {
@@ -182,9 +128,9 @@ const Governance = () => {
   function AllGovBars() {
     return (
       <React.Fragment>
-        {!proposals
+        {!proposals.proposals
           ? ""
-          : proposals
+          : proposals.proposals
               .map((proposal: ProposalData) => {
                 let yes = Number(proposal.final_tally_result.yes);
                 let no = Number(proposal.final_tally_result.no);
@@ -210,7 +156,8 @@ const Governance = () => {
                     endDate={convertDateToString(proposal.voting_end_time)}
                     status={proposal.status}
                     onClick={() => {
-                      setCurrentProposal(proposal);
+                      proposals.setCurrentProposal(proposal)
+                      // setCurrentProposal(proposal);
                       setIsOpened(true);
                     }}
                   />
@@ -230,9 +177,6 @@ const Governance = () => {
         <a href= "https://staking-canto-testnet.netlify.app/">stake</a> your canto to participate in
         governance
       </div>
-      {/* <button onClick={() => {
-        setIsOpened(true);
-      }}>create a new vote</button> */}
       <div className="grid">
         <AllGovBars />
       </div>
@@ -244,8 +188,8 @@ const Governance = () => {
         }}
       >
         <Proposal
-          proposal={currentProposal ?? emptyProposal}
-          chainId={Number(chainId)}
+          proposal={proposals.currentProposal ?? emptyProposal}
+          chainId={Number(networkInfo.chainId)}
         />
       </StyledPopup>
     </Container>

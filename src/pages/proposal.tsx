@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import styled from "styled-components";
 import { nodeURL, voteOnProposal, fee, memo, getAccountVote } from "utils/nodeTransactions";
+import { ProposalData } from "stores/proposals";
 
 const Container = styled.div`
   padding: 2rem;
@@ -130,32 +131,6 @@ const DisabledButton = styled.button`
   align-self: center;
 `;
 
-export interface ProposalData {
-  content: {
-    "@type": string;
-    description: string;
-    erc20address: string;
-    title: string;
-  };
-  deposit_end_time: string;
-  final_tally_result: {
-    abstain: string;
-    no: string;
-    no_with_veto: string;
-    yes: string;
-  };
-  proposal_id: string;
-  status: string;
-  submit_time: string;
-  total_deposit: [
-    {
-      denom: string;
-      amount: string;
-    }
-  ];
-  voting_end_time: string;
-  voting_start_time: string;
-}
 
 /*
   THRESHOLDS
@@ -164,11 +139,6 @@ export interface ProposalData {
   <33.4% for veto (more than 33.4% of voting participants vote nowithveto will veto)
 
 */
-enum ProposalStatus {
-  "PROPOSAL_STATUS_VOTING_PERIOD",
-  "PROPOSAL_STATUS_REJECTED",
-  "PROPOSAL_STATUS_PASSED",
-}
 
 function convertToVoteNumber(option: string): number {
   switch (option) {
@@ -235,9 +205,9 @@ const Proposal = (props: ProposalWithChain) => {
         <p>
           {props.proposal.status == "PROPOSAL_STATUS_VOTING_PERIOD"
             ? "Voting"
-            : props.proposal.status == "PROPOSAL_STATUS_REJECTED"
-              ? "Rejected"
-              : "Passed"}
+            : props.proposal.status ==  "PROPOSAL_STATUS_PASSED"
+            ? "Passed"
+            : "Rejected"}
         </p>
       </div>
       <h1>{props.proposal.content.title}</h1>
