@@ -3,25 +3,26 @@ import styled from "styled-components";
 import { slide as Menu } from "react-burger-menu";
 
 const BurgerStyles = {
+  paddingTop: "-1000px",
   bmBurgerButton: {
-    position: "fixed",
+    position: "sticky",
     width: "36px",
     height: "30px",
     left: "36px",
     top: "36px",
   },
   bmBurgerBars: {
-    background: "var(--primary-color",
+    background: "var(--primary-color)",
   },
   bmBurgerBarsHover: {
-    background: "#a90000",
+    background: "var(--primary-color)",
   },
   bmCrossButton: {
     height: "24px",
     width: "24px",
   },
   bmCross: {
-    background: "#bdc3c7",
+    background: "var(--primary-color)",
   },
   bmMenuWrap: {
     position: "fixed",
@@ -36,11 +37,13 @@ const BurgerStyles = {
     fill: "#373a47",
   },
   bmItemList: {
-    color: "#b8b7ad",
+    color: "var(--primary-color)",
     padding: "0.8em",
   },
   bmItem: {
-    display: "inline-block",
+    display: "block",
+    color: "var(--primary-color)",
+    paddingTop: "40px",
   },
   bmOverlay: {
     background: "rgba(0, 0, 0, 0.3)",
@@ -50,13 +53,44 @@ const BurgerStyles = {
 export const BurgerMenu = () => {
   return (
     <Menu styles={BurgerStyles} pageWrapId={"page-wrap"}>
-      <a id="bridge" className="menu-item" href="https://bridge-canto.netlify.app/">bridge</a>
-      <a id="convertCoin" className="menu-item" href="/">convert coin</a>
-      <a id="dex" className="menu-item" href="/">dex</a>
-      <a id="generator" className="menu-item" href="https://generator-canto.netlify.app/">generator</a>
-      <a id="governance" className="menu-item" href="https://governance-canto.netlify.app/">governance</a>
-      <a id="lending" className="menu-item" href="/">lending</a>
-      <a id="staking" className="menu-item" href="https://staking-canto.netlify.app/">staking</a>
+      <h2>Canto Sites</h2>
+      <a
+        id="bridge"
+        className="menu-item"
+        href="https://bridge-canto.netlify.app/"
+      >
+        bridge
+      </a>
+      <a id="convertCoin" className="menu-item" href="/">
+        convert coin
+      </a>
+      <a id="dex" className="menu-item" href="/">
+        dex
+      </a>
+      <a
+        id="generator"
+        className="menu-item"
+        href="https://generator-canto.netlify.app/"
+      >
+        generator
+      </a>
+      <a
+        id="governance"
+        className="menu-item"
+        href="https://governance-canto.netlify.app/"
+      >
+        governance
+      </a>
+      <a id="lending" className="menu-item" href="/">
+        lending
+      </a>
+      <a
+        id="staking"
+        className="menu-item"
+        href="https://staking-canto.netlify.app/"
+      >
+        staking
+      </a>
     </Menu>
   );
 };

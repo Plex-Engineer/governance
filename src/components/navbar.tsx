@@ -301,8 +301,8 @@ const NavBar = () => {
 
   return (
     <Container didScroll={colorChange}>
-      <BurgerMenu/>
       <div id="logo">
+        <a><BurgerMenu/></a>
         <a
           href="https://canto.io"
           style={{
