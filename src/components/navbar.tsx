@@ -10,6 +10,7 @@ import {
 } from "constants/addCantoToWallet";
 
 import { useNetworkInfo } from "stores/networkInfo";
+import { Burger, Menu } from "./menu";
 
 
 interface propsStyle {
@@ -253,6 +254,7 @@ const Glitch = styled.p`
 
 const NavBar = () => {
   const netWorkInfo = useNetworkInfo();
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     const [chainId, account] = getChainIdandAccount();
@@ -299,6 +301,8 @@ const NavBar = () => {
 
   return (
     <Container didScroll={colorChange}>
+      <Burger open={menuOpen} setIsOpen={setMenuOpen}/>
+      <Menu open={menuOpen}/>
       <div id="logo">
         <a
           href="https://canto.io"

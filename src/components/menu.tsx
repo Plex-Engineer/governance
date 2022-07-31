@@ -1,11 +1,11 @@
-import { useState } from "react"
+import { useState } from "react";
 import styled from "styled-components";
 
-interface BurgerProps {
-    open: boolean;
+interface MenuProps {
+  open: boolean;
 }
-const StyledBurger = styled.button<BurgerProps>`
-  position: absolute;
+const StyledBurger = styled.button<MenuProps>`
+  position: left;
   top: 5%;
   left: 2rem;
   display: flex;
@@ -26,32 +26,32 @@ const StyledBurger = styled.button<BurgerProps>`
   div {
     width: 2rem;
     height: 0.25rem;
-    background: ${({ open }) => open ? '#0D0C1D' : '#EFFFFA'};
+    background: ${({ open }) => (open ? "#EFFFFA" : "#06fc99")};
     border-radius: 10px;
     transition: all 0.3s linear;
     position: relative;
     transform-origin: 1px;
 
     :first-child {
-      transform: ${({ open }) => open ? 'rotate(45deg)' : 'rotate(0)'};
+      transform: ${({ open }) => (open ? "rotate(45deg)" : "rotate(0)")};
     }
 
     :nth-child(2) {
-      opacity: ${({ open }) => open ? '0' : '1'};
-      transform: ${({ open }) => open ? 'translateX(20px)' : 'translateX(0)'};
+      opacity: ${({ open }) => (open ? "0" : "1")};
+      transform: ${({ open }) => (open ? "translateX(20px)" : "translateX(0)")};
     }
 
     :nth-child(3) {
-      transform: ${({ open }) => open ? 'rotate(-45deg)' : 'rotate(0)'};
+      transform: ${({ open }) => (open ? "rotate(-45deg)" : "rotate(0)")};
     }
   }
-`
-const StyledMenu = styled.nav<BurgerProps>`
+`;
+const StyledMenu = styled.nav<MenuProps>`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  background: #EFFFFA;
-  transform: ${({ open }) => open ? 'translateX(0)' : 'translateX(-100%)'};
+  /* background: #effffa; */
+  transform: ${({ open }) => (open ? "translateX(0)" : "translateX(-100%)")};
   height: 100vh;
   text-align: left;
   padding: 2rem;
@@ -61,8 +61,8 @@ const StyledMenu = styled.nav<BurgerProps>`
   transition: transform 0.3s ease-in-out;
 
   @media (max-width: 576px) {
-      width: 100%;
-    }
+    width: 100%;
+  }
 
   a {
     font-size: 2rem;
@@ -70,7 +70,7 @@ const StyledMenu = styled.nav<BurgerProps>`
     padding: 2rem 0;
     font-weight: bold;
     letter-spacing: 0.5rem;
-    color: #0D0C1D;
+    color: #0d0c1d;
     text-decoration: none;
     transition: color 0.3s linear;
 
@@ -83,33 +83,31 @@ const StyledMenu = styled.nav<BurgerProps>`
       color: #343078;
     }
   }
-`
+`;
+interface BurgerProps {
+  open: boolean;
+  setIsOpen: (open: boolean) => void;
+}
 
-export const Menu = ({open}: BurgerProps) => {
+export const Menu = ({ open }: MenuProps) => {
   return (
     <StyledMenu open={open}>
-      <a href="/">
-        <span role="img" aria-label="about us">💁🏻‍♂️</span>
-        About us
-      </a>
-      <a href="/">
-        <span role="img" aria-label="price">💸</span>
-        Pricing
-        </a>
-      <a href="/">
-        <span role="img" aria-label="contact">📩</span>
-        Contact
-        </a>
+      <a href="https://bridge-canto.netlify.app/">bridge</a>
+      <a href="/">convert coin</a>
+      <a href="/">dex</a>
+      <a href="https://generator-canto.netlify.app/">generator</a>
+      <a href="https://governance-canto.netlify.app/">governance</a> 
+      <a href="/">lending</a> 
+      <a href="https://staking-canto.netlify.app/">staking</a>
     </StyledMenu>
-  )
-}
+  );
+};
 
-export const Burger = () => {
-    const [open, setOpen] = useState(false);
-
-    return (
-        <StyledBurger open={open} onClick={() => setOpen(!open)} />
-    )
-}
-
-
+export const Burger = ({ open, setIsOpen }: BurgerProps) => {
+  return (
+  <StyledBurger open={open} onClick={() => setIsOpen(!open)}>
+    <div/>
+    <div/>
+    <div/>
+  </StyledBurger>
+)};
