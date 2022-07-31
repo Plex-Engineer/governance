@@ -92,7 +92,6 @@ const Governance = () => {
       })
     } 
     proposals.initProposals(Number(networkInfo.chainId));
-    proposals.addTallyToProposal(Number(networkInfo.chainId));
   },[networkInfo.chainId]);
 
   
