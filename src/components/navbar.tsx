@@ -254,7 +254,6 @@ const Glitch = styled.p`
 
 const NavBar = () => {
   const netWorkInfo = useNetworkInfo();
-  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     const [chainId, account] = getChainIdandAccount();
