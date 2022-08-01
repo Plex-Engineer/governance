@@ -36,7 +36,12 @@ const Container = styled.div<propsStyle>`
     color: var(--primary-color);
     font-weight: 400;
     text-align: center;
-    flex-grow: 2;
+    flex-grow: 1.2;
+  }
+  .wallet {
+    display: flex;
+    align-items: flex-end;
+    justify-content: end ;
   }
   #logo {
     color: var(--primary-color);
@@ -71,19 +76,16 @@ const Container = styled.div<propsStyle>`
       background-color: #06fc9a29;
       transition: all 0.2s ease-in-out;
     }
-
     & > span {
       color: var(--primary-color);
       padding: 8px 8px;
     }
   }
-
   .active {
     & > span {
       background-color: #06fc9a2b;
     }
   }
-
   .off {
     color: grey !important;
     text-shadow: 0 0 4px grey, 0 0 20px grey;
@@ -100,6 +102,7 @@ const Container = styled.div<propsStyle>`
     font-family: "IBM Plex Mono";
     font-weight: 400;
     padding: 0.3rem 0.6rem;
+    /* flex: .6; */
     /* margin-right: 2rem; */
     color: var(--primary-color);
     transition: all 0.2s ease-in-out;
@@ -110,18 +113,15 @@ const Container = styled.div<propsStyle>`
       color: black;
     }
   }
-
   #menu-checkbox {
     display: none;
   }
-
   //media queries for tablet
   @media (max-width: 1248px) {
     a {
       padding: 5px 5px;
     }
   }
-
   @media (max-width: 1000px) {
     ul.active {
       /* left: 0%; */
@@ -131,7 +131,6 @@ const Container = styled.div<propsStyle>`
       position: absolute;
       flex-direction: column;
       top: 100vh;
-
       /* left: -100%; */
       border-top: 1px solid var(--primary-color);
       transition: all 0.2s ease-in-out;
@@ -148,9 +147,7 @@ const Container = styled.div<propsStyle>`
         #021911 4px,
         #021911 8px
       );
-
       gap: 0.4rem;
-
       a {
         font-size: 2.4rem;
         font-weight: 300;
@@ -159,7 +156,6 @@ const Container = styled.div<propsStyle>`
         letter-spacing: -0.1em;
       }
     }
-
     /* ul {
     display: flex;
     justify-content: center;
@@ -175,13 +171,11 @@ const Container = styled.div<propsStyle>`
       display: block;
       margin-right: 1rem;
     }
-
     button {
       /* display: none; */
       background-color: var(--primary-color);
       color: black;
       font-size: 1rem;
-      /* width: 160px; */
     }
   }
 `;
@@ -193,33 +187,28 @@ const Glitch = styled.p`
     font-size: 26px;
     font-weight: 300;
     margin: 0 1rem;
-
     position: relative;
     text-shadow: 0.05em 0 0 #00ffd5, -0.03em -0.04em 0 #1d7407,
       0.025em 0.04em 0 #8bff9f;
     animation: glitch 725ms infinite;
   }
-
   & span {
     position: absolute;
     top: 0;
     left: 0;
   }
-
   & span:first-child {
     animation: glitch 500ms infinite;
     clip-path: polygon(0 0, 100% 0, 100% 35%, 0 35%);
     transform: translate(-0.04em, -0.03em);
     opacity: 0.75;
   }
-
   & span:last-child {
     animation: glitch 375ms infinite;
     clip-path: polygon(0 65%, 100% 65%, 100% 100%, 0 100%);
     transform: translate(0.04em, 0.03em);
     opacity: 0.75;
   }
-
   @keyframes glitch {
     0% {
       text-shadow: 0.05em 0 0 #00ffd5, -0.03em -0.04em 0 #1d7407,
@@ -327,6 +316,7 @@ const NavBar = () => {
           setIsNavOpen(!isNavOpen);
         }}
       />
+      <div className="wallet">
       {netWorkInfo.isConnected && netWorkInfo.account ? (
         <button
           onClick={() => {
@@ -346,6 +336,7 @@ const NavBar = () => {
       ) : (
         <button onClick={() => connect()}>connect wallet</button>
       )}
+      </div>
       <label htmlFor="menu-checkbox" style={{ display: "none" }}>
         <img id="nav-menu" src={menu} />
       </label>
