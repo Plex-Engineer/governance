@@ -26,7 +26,8 @@ const BurgerStyles = {
   },
   bmMenuWrap: {
     position: "fixed",
-    height: "100%",
+    height: "100vh",
+    marginLeft: "-47px"
   },
   bmMenu: {
     background: "#000000",
@@ -47,12 +48,14 @@ const BurgerStyles = {
   },
   bmOverlay: {
     background: "rgba(0, 0, 0, 0.3)",
+    width: "0px",
+    height: "0px"
   },
 };
 
 export const BurgerMenu = () => {
   return (
-    <Menu styles={BurgerStyles} pageWrapId={"page-wrap"}>
+    <Menu styles={BurgerStyles} noOverlay pageWrapId={"page-wrap"} outerContainerId={"outer-container"}>
       <h2>Canto Sites</h2>
       <a
         id="bridge"
