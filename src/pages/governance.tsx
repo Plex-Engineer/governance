@@ -4,7 +4,7 @@ import Popup from "reactjs-popup";
 import styled from "styled-components";
 import Proposal, { convertDateToString } from "./proposal";
 import { ProposalData } from "stores/proposals";
-import { CantoMain, CantoTest } from "constants/networks"
+import { CantoMain, CantoTest } from "constants/networks";
 import { toast } from "react-toastify";
 import { useNetworkInfo } from "stores/networkInfo";
 import { useProposals } from "stores/proposals";
@@ -32,8 +32,9 @@ const Container = styled.div`
     margin: 0;
     margin-bottom: 5rem;
     a {
-      color : var(--primary-color)
+      color: var(--primary-color);
     }
+    margin-top: 40px;
   }
 
   & > button {
@@ -76,26 +77,22 @@ const StyledPopup = styled(Popup)`
   }
 `;
 const Governance = () => {
-  //network info store 
+  //network info store
   const networkInfo = useNetworkInfo();
   //proposal store
   const proposals = useProposals();
   //track modal click
   const [isOpen, setIsOpened] = useState(false);
 
-
   //Let the user know they are on the wrong network
   useEffect(() => {
     if (!networkInfo.isConnected) {
       toast.error("Please switch to Canto network", {
-        toastId: networkInfo.chainId
-      })
-    } 
+        toastId: networkInfo.chainId,
+      });
+    }
     proposals.initProposals(Number(networkInfo.chainId));
-  },[networkInfo.chainId]);
-
-  
-
+  }, [networkInfo.chainId]);
 
   const emptyProposal: ProposalData = {
     content: {
@@ -155,7 +152,7 @@ const Governance = () => {
                     endDate={convertDateToString(proposal.voting_end_time)}
                     status={proposal.status}
                     onClick={() => {
-                      proposals.setCurrentProposal(proposal)
+                      proposals.setCurrentProposal(proposal);
                       // setCurrentProposal(proposal);
                       setIsOpened(true);
                     }}
@@ -171,10 +168,9 @@ const Governance = () => {
 
   return (
     <Container>
-      <div className="title">canto governance</div>
       <div className="title subtitle">
-        <a href= "https://staking.canto.io/">stake</a> your canto to participate in
-        governance
+        <a href="https://staking.canto.io/">stake</a> your canto to participate
+        in governance
       </div>
       <div className="grid">
         <AllGovBars />
