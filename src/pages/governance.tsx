@@ -173,7 +173,7 @@ const Governance = () => {
     <Container>
       <div className="title">canto governance</div>
       <div className="title subtitle">
-        <a href= "https://staking-canto-testnet.netlify.app/">stake</a> your canto to participate in
+        <a href= "https://staking.canto.io/">stake</a> your canto to participate in
         governance
       </div>
       <div className="grid">
