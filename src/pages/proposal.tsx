@@ -7,6 +7,7 @@ import { nodeURL, voteOnProposal, fee, memo, getAccountVote } from "utils/nodeTr
 import { ProposalData } from "stores/proposals";
 
 const Container = styled.div`
+  overflow-wrap: break-word;
   padding: 2rem;
   display: flex;
   height: 90vh;
