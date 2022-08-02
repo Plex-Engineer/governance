@@ -28,13 +28,17 @@ const Container = styled.div`
   }
 
   .subtitle {
-    font-size: 40px;
     margin: 0;
     margin-bottom: 5rem;
     a {
       color: var(--primary-color);
     }
     margin-top: 40px;
+    text-shadow: none;
+    color: white;
+    text-align: center;
+    font-size: 35px;
+    font-weight: 400;
   }
 
   & > button {
