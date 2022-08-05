@@ -2,12 +2,12 @@ import GovBar from "components/governance/govBar";
 import React, { useState, useEffect } from "react";
 import Popup from "reactjs-popup";
 import styled from "styled-components";
-import Proposal, { convertDateToString } from "./proposal";
+import Proposal from "./proposal";
 import { ProposalData } from "stores/proposals";
-import { CantoMain, CantoTest } from "constants/networks";
 import { toast } from "react-toastify";
 import { useNetworkInfo } from "stores/networkInfo";
 import { useProposals } from "stores/proposals";
+import { convertDateToString } from "utils/formattingStrings";
 
 const Container = styled.div`
   display: flex;

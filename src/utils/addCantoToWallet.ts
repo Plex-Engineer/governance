@@ -1,5 +1,5 @@
 import { ethers } from "ethers";
-import { CantoMain } from "constants/networks";
+import { CantoMainnet } from "cantoui";
 
 export function addNetwork() {
   //@ts-ignore
@@ -8,20 +8,20 @@ export function addNetwork() {
       method: "wallet_addEthereumChain",
       params: [
         {
-          chainId: "0x" + CantoMain.chainId.toString(16),
+          chainId: "0x" + CantoMainnet.chainId.toString(16),
           chainName: "Canto",
           nativeCurrency: {
             name: "Canto Coin",
             symbol: "CANTO",
             decimals: 18,
           },
-          rpcUrls: [CantoMain.rpcUrl],
-          blockExplorerUrls: [CantoMain.blockExplorerUrl],
+          rpcUrls: [CantoMainnet.rpcUrl],
+          blockExplorerUrls: [CantoMainnet.blockExplorerUrl],
         },
       ],
     })
     .catch((error: any) => {
-      console.log(error);
+      // console.log(error);
     });
 }
 

@@ -5,6 +5,8 @@ import { useState } from "react";
 import styled from "styled-components";
 import { nodeURL, voteOnProposal, fee, memo, getAccountVote } from "utils/nodeTransactions";
 import { ProposalData } from "stores/proposals";
+import { convertDateToString, convertToVoteNumber } from "utils/formattingStrings";
+import { votingThresholds } from "constants.ts/votingThresholds";
 
 const Container = styled.div`
   overflow-wrap: break-word;
@@ -133,37 +135,6 @@ const DisabledButton = styled.button`
 `;
 
 
-/*
-  THRESHOLDS
-  40% for quorum (vote to even make proposal valid)
-  50% for threshold (enough to make pass, of participating voting power)
-  <33.4% for veto (more than 33.4% of voting participants vote nowithveto will veto)
-
-*/
-
-function convertToVoteNumber(option: string): number {
-  switch (option) {
-    case "yes":
-      return 1
-    case "abstain":
-      return 2
-    case "no":
-      return 3
-    case "veto":
-      return 4
-    default:
-      return 0
-  }
-}
-export function convertDateToString(dateString: string) {
-  return (new Date(dateString)
-  .toLocaleDateString()
-  .replaceAll("/", ".") +
-  " : " +
-  new Date(dateString).toLocaleTimeString())
-}
-
-
 
 interface ProposalWithChain {
   proposal: ProposalData,
@@ -264,9 +235,9 @@ const Proposal = (props: ProposalWithChain) => {
           convertDateToString(props.proposal.deposit_end_time)
         }
       />
-      <RowCell type="QUORUM:" value="40%" />
-      <RowCell type="THRESHOLD:" value="50%" />
-      <RowCell type="VETO THRESHOLD:" value="33.4%" />
+      <RowCell type="QUORUM:" value={votingThresholds.quorum} />
+      <RowCell type="THRESHOLD:" value={votingThresholds.threshold} />
+      <RowCell type="VETO THRESHOLD:" value={votingThresholds.veto} />
       {accountVote != "NONE" ? "YOUR VOTE: " + accountVote : ""}
       {voteSuccess == 0 ? <div style={{ color: 'red' }}>vote could not be placed</div> : voteSuccess == 1 ? <div style={{ color: 'green' }}>thank you for your vote!</div> : ""}
 

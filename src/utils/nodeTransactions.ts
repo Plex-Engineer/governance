@@ -1,14 +1,14 @@
 import { generateEndpointAccount, generateEndpointBroadcast, generatePostBodyBroadcast, generateEndpointProposals } from '@tharsis/provider';
 import { createTxRawEIP712, signatureToWeb3Extension, createTxMsgDelegate, createTxMsgVote } from '@tharsis/transactions';
-import { CantoTest, CantoMain } from "constants/networks"
+import { CantoMainnet, CantoTestnet } from 'cantoui';
 
 
 
 export const nodeURL = (chain : number | undefined) => {    
-    if (chain == CantoTest.chainId) {
-        return CantoTest.cosmosAPIEndpoint;
+    if (chain == CantoTestnet.chainId) {
+        return CantoTestnet.cosmosAPIEndpoint;
     }
-    return CantoMain.cosmosAPIEndpoint;
+    return CantoMainnet.cosmosAPIEndpoint;
 }
 
 /**
