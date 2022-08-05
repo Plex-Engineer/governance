@@ -1,7 +1,6 @@
 import "App.css";
 import styled from "styled-components";
 import GlobalStyles from "styles/global-styles";
-import NavBar from "components/navbar";
 import {
   BrowserRouter as Router,
   Routes,
@@ -14,6 +13,7 @@ import "react-toastify/dist/ReactToastify.css";
 import {ToastContainer } from "react-toastify";
 import { useEffect, useState } from "react";
 import Governance from "pages/governance";
+import { CantoNav } from "components/cantoNav";
 
 //Styling
 
@@ -137,7 +137,7 @@ function App() {
           <ScanlinesOverlay />
           <GlobalStyles />
           <OverlayLines/>
-          <NavBar/> 
+          <CantoNav/> 
           <Routes>
             <Route path="/" element={<Governance />}/>
           </Routes>

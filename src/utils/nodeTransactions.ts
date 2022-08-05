@@ -1,14 +1,14 @@
 import { generateEndpointAccount, generateEndpointBroadcast, generatePostBodyBroadcast, generateEndpointProposals } from '@tharsis/provider';
 import { createTxRawEIP712, signatureToWeb3Extension, createTxMsgDelegate, createTxMsgVote } from '@tharsis/transactions';
-import { CantoTest, CantoMain } from "constants/networks"
+import { CantoMainnet, CantoTestnet } from 'cantoui';
 
 
 
 export const nodeURL = (chain : number | undefined) => {    
-    if (chain == CantoTest.chainId) {
-        return CantoTest.cosmosAPIEndpoint;
+    if (chain == CantoTestnet.chainId) {
+        return CantoTestnet.cosmosAPIEndpoint;
     }
-    return CantoMain.cosmosAPIEndpoint;
+    return CantoMainnet.cosmosAPIEndpoint;
 }
 
 /**
@@ -206,8 +206,7 @@ function generateRawTx(chain:any, senderObj:any, signature:any, msg:any) {
         const msg = createTxMsgVote(chain, senderObj, fee, memo, params);
       
         const response = await signAndBroadcastTxMsg(msg, senderObj, chain, nodeAddressIP, account);
-        // await response.wait()
-        console.log(response)
+     
         console.log("thank you for your vote")
         
 
