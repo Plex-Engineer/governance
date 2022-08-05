@@ -3,10 +3,20 @@ import { GraphBar } from "components/governance/govBar";
 import { useEffect } from "react";
 import { useState } from "react";
 import styled from "styled-components";
-import { nodeURL, voteOnProposal, fee, memo, getAccountVote } from "utils/nodeTransactions";
+import {
+  nodeURL,
+  voteOnProposal,
+  fee,
+  memo,
+  getAccountVote,
+} from "utils/nodeTransactions";
 import { ProposalData } from "stores/proposals";
-import { convertDateToString, convertToVoteNumber } from "utils/formattingStrings";
+import {
+  convertDateToString,
+  convertToVoteNumber,
+} from "utils/formattingStrings";
 import { votingThresholds } from "constants.ts/votingThresholds";
+import { Mixpanel } from "mixpanel";
 
 const Container = styled.div`
   overflow-wrap: break-word;
@@ -19,29 +29,29 @@ const Container = styled.div`
   align-items: stretch;
   gap: 1rem;
   overflow-y: scroll;
-    scrollbar-color: var(--primary-color);
-    scroll-behavior: smooth;
-    /* width */
-    &::-webkit-scrollbar {
-      width: 6px;
-    }
+  scrollbar-color: var(--primary-color);
+  scroll-behavior: smooth;
+  /* width */
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
 
-    /* Track */
-    &::-webkit-scrollbar-track {
-      background: #151515;
-    }
+  /* Track */
+  &::-webkit-scrollbar-track {
+    background: #151515;
+  }
 
-    /* Handle */
-    &::-webkit-scrollbar-thumb {
-      box-shadow: inset 2 2 5px var(--primary-color);
+  /* Handle */
+  &::-webkit-scrollbar-thumb {
+    box-shadow: inset 2 2 5px var(--primary-color);
 
-      background: var(--primary-color);
-    }
+    background: var(--primary-color);
+  }
 
-    /* Handle on hover */
-    &::-webkit-scrollbar-thumb:hover {
-      background: #07e48c;
-    }
+  /* Handle on hover */
+  &::-webkit-scrollbar-thumb:hover {
+    background: #07e48c;
+  }
   .title {
     font-weight: 300;
     font-size: 184px;
@@ -134,11 +144,10 @@ const DisabledButton = styled.button`
   align-self: center;
 `;
 
-
-
 interface ProposalWithChain {
-  proposal: ProposalData,
-  chainId: number | undefined
+  proposal: ProposalData;
+  chainId: number | undefined;
+  account: string | undefined;
 }
 
 const Proposal = (props: ProposalWithChain) => {
@@ -152,32 +161,39 @@ const Proposal = (props: ProposalWithChain) => {
   const [voteSuccess, setVoteSuccess] = useState<number | undefined>(undefined);
   async function showAccountVote() {
     if (props.proposal.status == "PROPOSAL_STATUS_VOTING_PERIOD") {
-      const vote = await getAccountVote(props.proposal.proposal_id, nodeURL(props.chainId));
+      const vote = await getAccountVote(
+        props.proposal.proposal_id,
+        nodeURL(props.chainId)
+      );
       setAccountVote(vote);
     }
   }
   useEffect(() => {
     showAccountVote();
-  }, [])
+  }, []);
 
   const chain = {
     chainId: props.chainId,
-    cosmosChainId: `canto_${props.chainId}-1`
-  }
+    cosmosChainId: `canto_${props.chainId}-1`,
+  };
 
   const [voteOption, setVoteOption] = useState("none");
   return (
     <Container>
-      <button style={{
-        display: "none"
-      }}>to stop auto focus</button>
+      <button
+        style={{
+          display: "none",
+        }}
+      >
+        to stop auto focus
+      </button>
       <div className="tiny">
         {" "}
         <p>governance / {props.proposal.proposal_id}</p>
         <p>
           {props.proposal.status == "PROPOSAL_STATUS_VOTING_PERIOD"
             ? "Voting"
-            : props.proposal.status ==  "PROPOSAL_STATUS_PASSED"
+            : props.proposal.status == "PROPOSAL_STATUS_PASSED"
             ? "Passed"
             : "Rejected"}
         </p>
@@ -185,7 +201,9 @@ const Proposal = (props: ProposalWithChain) => {
       <h1>{props.proposal.content.title}</h1>
       <RowCell
         type="Type:"
-        value={props.proposal.content["@type"].slice(props.proposal.content["@type"].lastIndexOf(".") + 1,)}
+        value={props.proposal.content["@type"].slice(
+          props.proposal.content["@type"].lastIndexOf(".") + 1
+        )}
       />
       <div
         className="rowCell"
@@ -200,13 +218,23 @@ const Proposal = (props: ProposalWithChain) => {
         <p>{props.proposal.content.description}</p>
       </div>
 
-      <RowCell color="#06fc99" type="Yes:" value={props.proposal.final_tally_result.yes.toString()} />
-      <RowCell color="#ff4646" type="No:" value={props.proposal.final_tally_result.no.toString()} />
-      <RowCell color="#710808"
+      <RowCell
+        color="#06fc99"
+        type="Yes:"
+        value={props.proposal.final_tally_result.yes.toString()}
+      />
+      <RowCell
+        color="#ff4646"
+        type="No:"
+        value={props.proposal.final_tally_result.no.toString()}
+      />
+      <RowCell
+        color="#710808"
         type="No With Veto:"
         value={props.proposal.final_tally_result.no_with_veto.toString()}
       />
-      <RowCell color="#fbea51"
+      <RowCell
+        color="#fbea51"
         type="Abstain:"
         value={props.proposal.final_tally_result.abstain.toString()}
       />
@@ -214,40 +242,65 @@ const Proposal = (props: ProposalWithChain) => {
       <RowCell
         type="TOTAL DEPOSIT:"
         value={
-          props.proposal.total_deposit[0].amount + " " + props.proposal.total_deposit[0].denom
+          props.proposal.total_deposit[0].amount +
+          " " +
+          props.proposal.total_deposit[0].denom
         }
       />
       <RowCell
         type="SUBMIT TIME:"
-        value={
-          convertDateToString(props.proposal.submit_time)
-        }
+        value={convertDateToString(props.proposal.submit_time)}
       />
       <RowCell
         type="VOTING END TIME:"
-        value={
-          convertDateToString(props.proposal.voting_end_time)
-        }
+        value={convertDateToString(props.proposal.voting_end_time)}
       />
       <RowCell
         type="DEPOSIT END TIME:"
-        value={
-          convertDateToString(props.proposal.deposit_end_time)
-        }
+        value={convertDateToString(props.proposal.deposit_end_time)}
       />
       <RowCell type="QUORUM:" value={votingThresholds.quorum} />
       <RowCell type="THRESHOLD:" value={votingThresholds.threshold} />
       <RowCell type="VETO THRESHOLD:" value={votingThresholds.veto} />
       {accountVote != "NONE" ? "YOUR VOTE: " + accountVote : ""}
-      {voteSuccess == 0 ? <div style={{ color: 'red' }}>vote could not be placed</div> : voteSuccess == 1 ? <div style={{ color: 'green' }}>thank you for your vote!</div> : ""}
+      {voteSuccess == 0 ? (
+        <div style={{ color: "red" }}>vote could not be placed</div>
+      ) : voteSuccess == 1 ? (
+        <div style={{ color: "green" }}>thank you for your vote!</div>
+      ) : (
+        ""
+      )}
 
-      <CheckBox values={props.proposal.status == "PROPOSAL_STATUS_VOTING_PERIOD" ? ["yes", "no", "veto", "abstain"] : []} onChange={setVoteOption} />
-      {props.proposal.status != "PROPOSAL_STATUS_VOTING_PERIOD" ? <DisabledButton>voting has ended</DisabledButton> :
-        <Button onClick={async () => {
-          const voteSuccess = await voteOnProposal(Number(props.proposal.proposal_id), convertToVoteNumber(voteOption), nodeURL(props.chainId), fee, chain, memo);
-          setVoteSuccess(voteSuccess)
-        }} autoFocus={false}> {voteOption == "none" ? "select an option" : "vote"}</Button>
-      }
+      <CheckBox
+        values={
+          props.proposal.status == "PROPOSAL_STATUS_VOTING_PERIOD"
+            ? ["yes", "no", "veto", "abstain"]
+            : []
+        }
+        onChange={setVoteOption}
+      />
+      {props.proposal.status != "PROPOSAL_STATUS_VOTING_PERIOD" ? (
+        <DisabledButton>voting has ended</DisabledButton>
+      ) : (
+        <Button
+          onClick={async () => {
+            const voteSuccess = await voteOnProposal(
+              Number(props.proposal.proposal_id),
+              convertToVoteNumber(voteOption),
+              nodeURL(props.chainId),
+              fee,
+              chain,
+              memo
+            );
+            setVoteSuccess(voteSuccess);
+            // Mixpanel.events.governanceActions.vote(props.account, Number(props.proposal.proposal_id), voteOption);
+          }}
+          autoFocus={false}
+        >
+          {" "}
+          {voteOption == "none" ? "select an option" : "vote"}
+        </Button>
+      )}
 
       <GraphBar
         yesPecterage={totalVotes == 0 ? 0 : (100 * yes) / totalVotes}
@@ -258,7 +311,6 @@ const Proposal = (props: ProposalWithChain) => {
     </Container>
   );
 };
-
 
 interface Props {
   type: string;
@@ -275,9 +327,13 @@ const RowCell = (props: Props) => {
         color: "green",
       }}
     >
-      <p style={{
-        color: props.color ?? "#888"
-      }}>{props.type}</p>
+      <p
+        style={{
+          color: props.color ?? "#888",
+        }}
+      >
+        {props.type}
+      </p>
       <p>{props.value}</p>
     </div>
   );

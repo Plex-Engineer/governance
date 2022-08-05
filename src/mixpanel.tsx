@@ -86,6 +86,15 @@ let actions = {
                     })
                 }
             }
+        },
+        governanceActions: {
+            vote: (walletAddress: string | undefined, proposal : number, vote : string) => {
+                mixpanel.track('Vote on Proposal', {
+                    distinct_id: walletAddress,
+                    proposal : proposal,
+                    vote: vote
+                })
+            }
         }
     }
     

@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import { useNetworkInfo } from "stores/networkInfo";
 import { useProposals } from "stores/proposals";
 import { convertDateToString } from "utils/formattingStrings";
-
+import { Mixpanel } from "mixpanel";
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -97,6 +97,10 @@ const Governance = () => {
     }
     proposals.initProposals(Number(networkInfo.chainId));
   }, [networkInfo.chainId]);
+
+  useEffect(() => {
+    Mixpanel.events.pageOpened("governance", networkInfo.account)
+  })
 
   const emptyProposal: ProposalData = {
     content: {
@@ -189,6 +193,7 @@ const Governance = () => {
         <Proposal
           proposal={proposals.currentProposal ?? emptyProposal}
           chainId={Number(networkInfo.chainId)}
+          account={networkInfo.account}
         />
       </StyledPopup>
     </Container>
