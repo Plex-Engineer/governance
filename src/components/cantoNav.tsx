@@ -38,7 +38,7 @@ export const CantoNav = () => {
 
   return (
     <NavBar
-      title="lending"
+      title="governance"
       onClick={connect}
       chainId={Number(netWorkInfo.chainId)}
       account={netWorkInfo.account ?? ""}
