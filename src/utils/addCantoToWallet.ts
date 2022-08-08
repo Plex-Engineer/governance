@@ -3,52 +3,62 @@ import { CantoMainnet } from "cantoui";
 
 export function addNetwork() {
   //@ts-ignore
-  window.ethereum
-    .request({
-      method: "wallet_addEthereumChain",
-      params: [
-        {
-          chainId: "0x" + CantoMainnet.chainId.toString(16),
-          chainName: "Canto",
-          nativeCurrency: {
-            name: "Canto Coin",
-            symbol: "CANTO",
-            decimals: 18,
+  if (window.ethereum) {
+    //@ts-ignore
+    window.ethereum
+      .request({
+        method: "wallet_addEthereumChain",
+        params: [
+          {
+            chainId: "0x" + CantoMainnet.chainId.toString(16),
+            chainName: "Canto",
+            nativeCurrency: {
+              name: "Canto Coin",
+              symbol: "CANTO",
+              decimals: 18,
+            },
+            rpcUrls: [CantoMainnet.rpcUrl],
+            blockExplorerUrls: [CantoMainnet.blockExplorerUrl],
           },
-          rpcUrls: [CantoMainnet.rpcUrl],
-          blockExplorerUrls: [CantoMainnet.blockExplorerUrl],
-        },
-      ],
-    })
-    .catch((error: any) => {
-      // console.log(error);
-    });
+        ],
+      })
+      .catch((error: any) => {
+        // console.log(error);
+      });
+  }
 }
 
-export function getChainIdandAccount(): string[] | undefined[] {
+export async function getChainIdandAccount(): Promise<string[] | undefined[]> {
   //@ts-ignore
   if (window.ethereum) {
     //@ts-ignore
-    return [window.ethereum.networkVersion, window.ethereum.selectedAddress];
+    const network = await window.ethereum.networkVersion;
+    //@ts-ignore
+    const account = await window.ethereum.selectedAddress;
+    //@ts-ignore
+    return [network, account];
   }
   return [undefined, undefined];
 }
 export async function connect() {
+  console.log(window);
+  //@ts-ignore
+  if (window.ethereum) {
     //@ts-ignore
-    if (window.ethereum) {
-      //@ts-ignore
-      window.ethereum.request({method: "eth_requestAccounts"});
-      addNetwork();
-    }
+    window.ethereum.request({ method: "eth_requestAccounts" });
+    addNetwork();
   }
+}
 
 export async function getAccountBalance(account: string | undefined) {
+  //@ts-ignore
+  if (window.ethereum) {
     //@ts-ignore
-    if (window.ethereum) {
-        //@ts-ignore
-        let balance = await window.ethereum.request({method: 'eth_getBalance', params: [account, 'latest']})
-        return ethers.utils.formatEther(balance);
-    }
-    return "0";
- 
+    let balance = await window.ethereum.request({
+      method: "eth_getBalance",
+      params: [account, "latest"],
+    });
+    return ethers.utils.formatEther(balance);
+  }
+  return "0";
 }
