@@ -32,13 +32,9 @@ export async function getChainIdandAccount(): Promise<string[] | undefined[]> {
   //@ts-ignore
   if (window.ethereum) {
     //@ts-ignore
-    const network = await window.ethereum.networkVersion;
-    console.log("🚀 ~ file: addCantoToWallet.ts ~ line 36 ~ getChainIdandAccount ~ network", network)
+    await window.ethereum.request({ method: 'eth_requestAccounts' });
     //@ts-ignore
-    const account = await window.ethereum.selectedAddress;
-    console.log("🚀 ~ file: addCantoToWallet.ts ~ line 39 ~ getChainIdandAccount ~ account", account)
-    //@ts-ignore
-    return [network, account];
+    return [window.ethereum.networkVersion, window.ethereum.selectedAddress];
   }
   return [undefined, undefined];
 }
@@ -64,3 +60,4 @@ export async function getAccountBalance(account: string | undefined) {
   }
   return "0";
 }
+
