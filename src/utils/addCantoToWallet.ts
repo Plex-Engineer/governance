@@ -33,8 +33,10 @@ export async function getChainIdandAccount(): Promise<string[] | undefined[]> {
   if (window.ethereum) {
     //@ts-ignore
     const network = await window.ethereum.networkVersion;
+    console.log("🚀 ~ file: addCantoToWallet.ts ~ line 36 ~ getChainIdandAccount ~ network", network)
     //@ts-ignore
     const account = await window.ethereum.selectedAddress;
+    console.log("🚀 ~ file: addCantoToWallet.ts ~ line 39 ~ getChainIdandAccount ~ account", account)
     //@ts-ignore
     return [network, account];
   }
