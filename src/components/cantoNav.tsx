@@ -6,13 +6,16 @@ import logo from "../assets/logo.svg"
 
 export const CantoNav = () => {
   const netWorkInfo = useNetworkInfo();
-
-  useEffect(() => {
-    const [chainId, account] = getChainIdandAccount();
+  
+  async function setChainInfo() {
+    const [chainId, account] = await getChainIdandAccount();
     netWorkInfo.setChainId(chainId);
     netWorkInfo.setAccount(account);
-    //@ts-ignore
-  }, [window.ethereum?.selectedAddress, window.ethereum?.networkVersion]);
+  }
+
+  useEffect(() => {
+    setChainInfo()
+  }, []);
 
   //@ts-ignore
   if (window.ethereum) {

@@ -39,7 +39,6 @@ export const nodeURL = (chain : number | undefined) => {
         postOptions
     );
     const response = await broadcastPost.json();
-    // console.log(response);
 }
 
 /**
@@ -51,7 +50,6 @@ export const nodeURL = (chain : number | undefined) => {
  */
 export async function getSenderObj(address:string, nodeAddress:string) {
     const accountCanto = await ethToCanto(address, nodeAddress);
-    //console.log(accountCanto);
     const endPointAccount = generateEndpointAccount(accountCanto??"");
     
     const options = {
@@ -141,7 +139,6 @@ function generateRawTx(chain:any, senderObj:any, signature:any, msg:any) {
     const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
     const account = accounts[0];
 
-    console.log(account);
 
     // get sender object using eth address
     const senderObj = await getSenderObj(account, nodeAddressIP);
