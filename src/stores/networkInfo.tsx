@@ -21,7 +21,6 @@ export const useNetworkInfo = create<NetworkProps>()(
     setIsConnected: (connected) => set({ isConnected: connected }),
     chainId: undefined,
     setChainId: (chainId) => {
-      console.log(chainId)
       set({ chainId: chainId });
       if (
         Number(chainId) == CantoTestnet.chainId ||

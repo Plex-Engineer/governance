@@ -8,9 +8,9 @@ export const CantoNav = () => {
   const netWorkInfo = useNetworkInfo();
   
   async function setChainInfo() {
-    const [chainId1, account1] = await getChainIdandAccount();
-    netWorkInfo.setChainId(chainId1);
-    netWorkInfo.setAccount(account1);
+    const [chainId, account] = await getChainIdandAccount();
+    netWorkInfo.setChainId(chainId);
+    netWorkInfo.setAccount(account);
   }
 
   useEffect(() => {

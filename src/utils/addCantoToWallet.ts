@@ -39,7 +39,6 @@ export async function getChainIdandAccount(): Promise<string[] | undefined[]> {
   return [undefined, undefined];
 }
 export async function connect() {
-  console.log(window);
   //@ts-ignore
   if (window.ethereum) {
     //@ts-ignore
