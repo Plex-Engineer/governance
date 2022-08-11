@@ -293,7 +293,6 @@ const Proposal = (props: ProposalWithChain) => {
               memo
             );
             setVoteSuccess(voteSuccess);
-            // Mixpanel.events.governanceActions.vote(props.account, Number(props.proposal.proposal_id), voteOption);
           }}
           autoFocus={false}
         >
