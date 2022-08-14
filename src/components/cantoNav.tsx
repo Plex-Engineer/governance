@@ -49,6 +49,7 @@ export const CantoNav = () => {
       balance={netWorkInfo.balance}
       currency={"CANTO"}
       logo={logo}
+      currentPage="governance"
     />
   );
 };
