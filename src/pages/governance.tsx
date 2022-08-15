@@ -4,7 +4,6 @@ import Popup from "reactjs-popup";
 import styled from "styled-components";
 import Proposal from "./proposal";
 import { ProposalData } from "stores/proposals";
-import { toast } from "react-toastify";
 import { useNetworkInfo } from "stores/networkInfo";
 import { useProposals } from "stores/proposals";
 import { convertDateToString } from "utils/formattingStrings";
@@ -90,11 +89,6 @@ const Governance = () => {
 
   //Let the user know they are on the wrong network
   useEffect(() => {
-    if (!networkInfo.isConnected) {
-      toast.error("Please switch to Canto network", {
-        toastId: networkInfo.chainId,
-      });
-    }
     proposals.initProposals(Number(networkInfo.chainId));
   }, [networkInfo.chainId]);
 

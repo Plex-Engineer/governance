@@ -1,17 +1,28 @@
-import { NavBar } from "cantoui";
-import { connect, getAccountBalance, getChainIdandAccount } from "utils/addCantoToWallet";
+import { NavBar, useAlert } from "cantoui";
+import { addNetwork, connect, getAccountBalance, getChainIdandAccount } from "utils/addCantoToWallet";
 import { useEffect } from "react";
 import { useNetworkInfo } from "stores/networkInfo";
 import logo from "../assets/logo.svg"
 
 export const CantoNav = () => {
   const netWorkInfo = useNetworkInfo();
-  
+  const alert = useAlert();
   async function setChainInfo() {
     const [chainId, account] = await getChainIdandAccount();
     netWorkInfo.setChainId(chainId);
     netWorkInfo.setAccount(account);
+    if (account != undefined) {
+      netWorkInfo.setBalance(await getAccountBalance(account))
+    }
   }
+
+  useEffect(() => {
+    if (!netWorkInfo.isConnected) {
+      alert.show("Failure", <p>this network is not supported on governance, please <a onClick={addNetwork} style={{cursor: "pointer", textDecoration: "underline"}}>switch networks</a></p>)
+    } else {
+      alert.close();
+    }
+  }, [netWorkInfo.isConnected])
 
   useEffect(() => {
     setChainInfo()
@@ -29,15 +40,6 @@ export const CantoNav = () => {
       window.location.reload();
     });
   }
-
-  async function getBalance() {
-    if (netWorkInfo.account != undefined) {
-      netWorkInfo.setBalance(await getAccountBalance(netWorkInfo.account))
-    }
-  }
-  useEffect(() => {
-    getBalance();
-  },[netWorkInfo.account])
 
   return (
     <NavBar
