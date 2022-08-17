@@ -165,9 +165,9 @@ function generateRawTx(chain:any, senderObj:any, signature:any, msg:any) {
  */
 
  export const fee = {
-    amount: "1000",
+    amount: "100000000000000000",
     denom: "acanto",
-    gas: '10000000',
+    gas: '1000000',
   };
   
 // const chain = {
