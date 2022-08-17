@@ -262,7 +262,11 @@ const Proposal = (props: ProposalWithChain) => {
       <RowCell type="QUORUM:" value={votingThresholds.quorum} />
       <RowCell type="THRESHOLD:" value={votingThresholds.threshold} />
       <RowCell type="VETO THRESHOLD:" value={votingThresholds.veto} />
-      {accountVote != "NONE" ? "YOUR VOTE: " + accountVote : ""}
+      {accountVote != "NONE" ? <p style={{color: "white"}}>YOUR VOTE: <a style={
+        accountVote == "YES" ? {color: "#06fc99"} : 
+        accountVote == "NO" ? {color: "#ff4646"} : 
+        accountVote == "VETO" ? {color: "#710808"} : 
+        {color: "#fbea51"}}>{accountVote}</a></p>  : ""}
       {voteSuccess == 0 ? (
         <div style={{ color: "red" }}>vote could not be placed</div>
       ) : voteSuccess == 1 ? (
