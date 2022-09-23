@@ -87,14 +87,20 @@ const Governance = () => {
   //track modal click
   const [isOpen, setIsOpened] = useState(false);
 
-  //Let the user know they are on the wrong network
   useEffect(() => {
+    // let done = false;
+    // async function initializeProposals(chainId: number) {
+    //   if (!done) {
+    //     await proposals.initProposals(chainId);
+    //     done = true;
+    //   }
+    // }
     proposals.initProposals(Number(networkInfo.chainId));
   }, [networkInfo.chainId]);
 
   useEffect(() => {
-    Mixpanel.events.pageOpened("governance", networkInfo.account)
-  })
+    Mixpanel.events.pageOpened("governance", networkInfo.account);
+  });
 
   const emptyProposal: ProposalData = {
     content: {

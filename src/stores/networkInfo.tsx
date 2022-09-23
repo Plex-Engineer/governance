@@ -24,7 +24,8 @@ export const useNetworkInfo = create<NetworkProps>()(
       set({ chainId: chainId });
       if (
         Number(chainId) == CantoTestnet.chainId ||
-        Number(chainId) == CantoMainnet.chainId
+        Number(chainId) == CantoMainnet.chainId ||
+        Number(chainId) == 8800
       ) {
         set({ isConnected: true });
       } else {

@@ -7,8 +7,10 @@ import { CantoMainnet, CantoTestnet } from 'cantoui';
 export const nodeURL = (chain : number | undefined) => {    
     if (chain == CantoTestnet.chainId) {
         return CantoTestnet.cosmosAPIEndpoint;
+    } else if (chain == CantoMainnet.chainId) {
+        return CantoMainnet.cosmosAPIEndpoint;
     }
-    return CantoMainnet.cosmosAPIEndpoint;
+    return "http://45.55.59.50:1317";
 }
 
 /**
@@ -165,9 +167,9 @@ function generateRawTx(chain:any, senderObj:any, signature:any, msg:any) {
  */
 
  export const fee = {
-    amount: "100000000000000000",
+    amount: "500000000000000000",
     denom: "acanto",
-    gas: '1000000',
+    gas: '5000000',
   };
   
 // const chain = {
