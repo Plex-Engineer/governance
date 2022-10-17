@@ -29,7 +29,6 @@ export const useNetworkInfo = create<NetworkProps>()(
         set({ isConnected: true });
       } else {
         set({ isConnected: false });
-        addNetwork();
       }
     },
     account: undefined,
