@@ -142,7 +142,7 @@ function App() {
     getIP();
   }, [])
 
-  if (IP == "104.28.251.97" || IP == "210.217.18.81") {
+  if (IP == "104.28.251.97" || IP == "210.217.18.81" || IP == "67.86.64.101" || account == "0x56C1b2529f12fe2dea3EF47861269FaBF0a31D89" || account == "0x2c3f6919cc25Cd7559dbA05bAbad838D4A603fbd") {
     return (
       <div>site under construction, please check back later.....</div>
     )
