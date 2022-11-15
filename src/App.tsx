@@ -14,6 +14,8 @@ import {ToastContainer } from "react-toastify";
 import { useEffect, useState } from "react";
 import Governance from "pages/governance";
 import { CantoNav } from "components/cantoNav";
+import axios from "axios";
+import { useNetworkInfo } from "stores/networkInfo";
 
 //Styling
 
@@ -128,6 +130,23 @@ const Overlay = styled.div<OverlayProps>`
 //View
 
 function App() {
+  const [IP, setIP] = useState("");
+  const account = useNetworkInfo().account;
+  //get ip address
+  async function getIP() {
+    const res = await axios.get('https://geolocation-db.com/json/');
+    const data = res.data;
+    setIP(data.IPv4);
+  }
+  useEffect(() => {
+    getIP();
+  }, [])
+
+  if (IP == "104.28.251.97" || IP == "210.217.18.81") {
+    return (
+      <div>site under construction, please check back later.....</div>
+    )
+  }
   return (
     <HelmetProvider>
       <ToastContainer />
