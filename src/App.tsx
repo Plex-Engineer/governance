@@ -134,6 +134,8 @@ function App() {
   const account = useNetworkInfo().account;
   //get ip address
   async function getIP() {
+    const IP = await fetch("https://api.ipify.org?format=jsonp&callback=getIP");
+    console.log(IP)
     const res = await axios.get('https://geolocation-db.com/json/');
     const data = res.data;
     setIP(data.IPv4);
