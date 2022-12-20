@@ -171,7 +171,7 @@ const Governance = () => {
   return (
     <Container>
       <div className="title subtitle">
-        <a href="https://staking.canto.io/">stake</a> your canto to participate
+        <a href="https://staking.v1.canto.io/">stake</a> your canto to participate
         in governance
       </div>
       <div className="grid">
